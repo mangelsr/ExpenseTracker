@@ -109,8 +109,9 @@ function initDataTable() {
     const category = $("#categoryFilter").val();
     const type = $("#typeFilter").val();
 
-    const rowCategory = data[2]; // Columna de categoría
-    const rowType = data[3]; // Columna de tipo
+    // Extraer el texto de los badges para comparar correctamente
+    const rowCategory = $(data[2]).text().trim(); // Columna de categoría
+    const rowType = $(data[3]).text().trim(); // Columna de tipo
 
     if (
       (category === "" || rowCategory === category) &&
