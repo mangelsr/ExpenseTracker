@@ -45,6 +45,17 @@ function initDataTable() {
     order: [[0, "desc"]], // Ordenar por fecha descendente por defecto
     columnDefs: [
       {
+        targets: 0, // Columna de fecha
+        render: function (data, type, row) {
+          if (type === "sort") {
+            // Extraer el valor de data-order
+            const match = data.match(/data-order=['"](\d+)['"]/);
+            return match ? parseInt(match[1], 10) : data;
+          }
+          return data;
+        },
+      },
+      {
         targets: 4, // Columna de monto
         className: "dt-body-right",
         render: function (data, type, row) {
@@ -120,9 +131,9 @@ function displayTransactions(transactions) {
     $("#transactionsBody").empty();
   }
 
-  // Ordenar por fecha (más antiguo primero)
+  // Ordenar por fecha (más reciente primero)
   transactions.sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
   // Agregar filas a DataTable
