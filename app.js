@@ -83,11 +83,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             await addTransaction(transaction);
           }
 
+          const importCount = pendingImport.length;
+
           // Recargar la vista
           await loadTransactions();
           hideImportPreview();
           showToast(
-            `${pendingImport.length} transacciones importadas con éxito`,
+            `${importCount} transacciones importadas con éxito`,
             "success"
           );
         } catch (error) {

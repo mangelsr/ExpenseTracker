@@ -120,21 +120,23 @@ function displayTransactions(transactions) {
     $("#transactionsBody").empty();
   }
 
-  // Ordenar por fecha (más reciente primero)
-  transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+  // Ordenar por fecha (más antiguo primero)
+  transactions.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
 
   // Agregar filas a DataTable
   transactions.forEach((transaction) => {
     // Formatear fecha
-    const date = new Date(transaction.date);
-    const formattedDate = date.toLocaleDateString();
+    const formattedDate = formatDateDMY(transaction.date);
+    const orderDate = new Date(transaction.date).getTime(); // milisegundos desde epoch
 
     // Formatear monto
     const amountFormatted = parseFloat(transaction.amount).toFixed(2);
 
     // Crear fila para DataTable
     const row = [
-      formattedDate,
+      `<span data-order='${orderDate}'>${formattedDate}</span>`,
       transaction.description,
       transaction.category,
       transaction.type,

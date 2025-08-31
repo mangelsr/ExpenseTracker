@@ -128,3 +128,9 @@ async function loadTransactions() {
     showLoading(false);
   }
 }
+
+// Helper para mostrar fecha en formato DD/MM/YYYY
+function formatDateDMY(dateStr) {
+  const [year, month, day] = dateStr.split("-");
+  return `${day}/${month}/${year}`;
+}

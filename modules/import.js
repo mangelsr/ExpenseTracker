@@ -11,7 +11,7 @@ function showImportPreview(transactions) {
   previewTransactions.forEach((transaction) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${new Date(transaction.date).toLocaleDateString()}</td>
+      <td>${formatDateDMY(transaction.date)}</td>
       <td>${transaction.description}</td>
       <td><span class="badge bg-secondary">${transaction.category}</span></td>
       <td class="${transaction.type === "ingreso" ? "income" : "expense"}">
