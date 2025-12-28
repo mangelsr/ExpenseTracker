@@ -115,12 +115,47 @@ async function saveEditedTransaction() {
   }
 }
 
-// Cargar transacciones desde la base de datos
-async function loadTransactions() {
+// Cargar transacciones desde la base de datos, solo las nuevas si se indica lastId
+async function loadTransactions(lastId = null) {
   try {
     showLoading(true);
-    const transactions = await getAllTransactions();
-    displayTransactions(transactions);
+    let transactions;
+    if (lastId !== null) {
+      // Obtener solo las transacciones con id mayor a lastId
+      transactions = await getTransactionsAfterId(lastId);
+      // Agregar solo las nuevas a la tabla existente
+      if (transactions && transactions.length > 0) {
+        transactions.forEach((t) =>
+          dataTable.row
+            .add([
+              `<span data-order='${new Date(t.date).getTime()}'>${formatDateDMY(
+                t.date
+              )}</span>`,
+              t.description,
+              t.category,
+              t.type,
+              parseFloat(t.amount).toFixed(2),
+              `<div class="transaction-actions">
+              <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${t.id}">
+                  <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${t.id}">
+                  <i class="fas fa-trash"></i>
+              </button>
+          </div>`,
+            ])
+            .draw(false)
+        );
+        updateSummary([...dataTable.rows().data().toArray(), ...transactions]);
+        updateCategoryChart([
+          ...dataTable.rows().data().toArray(),
+          ...transactions,
+        ]);
+      }
+    } else {
+      transactions = await getAllTransactions();
+      displayTransactions(transactions);
+    }
     showLoading(false);
   } catch (error) {
     console.error("Error al cargar transacciones:", error);

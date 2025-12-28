@@ -146,3 +146,26 @@ function clearAllTransactions() {
     };
   });
 }
+
+// Obtener transacciones con id mayor a lastId
+function getTransactionsAfterId(lastId) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([STORE_NAME], "readonly");
+    const store = tx.objectStore(STORE_NAME);
+    const result = [];
+    const request = store.openCursor(IDBKeyRange.lowerBound(lastId, true));
+
+    request.onsuccess = (event) => {
+      const cursor = event.target.result;
+      if (cursor) {
+        result.push(cursor.value);
+        cursor.continue();
+      } else {
+        resolve(result);
+      }
+    };
+    request.onerror = () => {
+      reject("Error al obtener transacciones nuevas");
+    };
+  });
+}
