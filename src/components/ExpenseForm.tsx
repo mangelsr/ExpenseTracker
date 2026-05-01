@@ -34,16 +34,17 @@ export function ExpenseForm({ onAddTransaction }: ExpenseFormProps) {
   };
 
   return (
-    <div className="card expense-form-card">
-      <div className="card-header">
-        <PlusCircle className="icon primary-icon" />
-        <h2>Agregar Gasto/Ingreso</h2>
+    <div className="bg-slate-800 rounded-2xl border border-white/5 shadow-md overflow-hidden h-full">
+      <div className="p-6 border-b border-slate-700 flex items-center gap-3">
+        <PlusCircle className="text-indigo-500" />
+        <h2 className="text-xl m-0 font-heading">Agregar Gasto/Ingreso</h2>
       </div>
-      <div className="card-body">
-        <form onSubmit={handleSubmit} className="expense-form">
-          <div className="form-group">
-            <label htmlFor="description">Descripción</label>
+      <div className="p-6">
+        <form onSubmit={handleSubmit}>
+          <div className="mb-5">
+            <label htmlFor="description" className="block mb-2 text-sm font-medium text-slate-400">Descripción</label>
             <input
+              className="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-slate-50 font-sans transition-all duration-300 text-[0.95rem] focus:outline-none focus:border-indigo-500 focus:ring-3 focus:ring-indigo-500/20"
               type="text"
               id="description"
               value={description}
@@ -52,9 +53,10 @@ export function ExpenseForm({ onAddTransaction }: ExpenseFormProps) {
               placeholder="Ej. Compra de supermercado"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="amount">Monto ($)</label>
+          <div className="mb-5">
+            <label htmlFor="amount" className="block mb-2 text-sm font-medium text-slate-400">Monto ($)</label>
             <input
+              className="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-slate-50 font-sans transition-all duration-300 text-[0.95rem] focus:outline-none focus:border-indigo-500 focus:ring-3 focus:ring-indigo-500/20"
               type="number"
               id="amount"
               step="0.01"
@@ -64,9 +66,10 @@ export function ExpenseForm({ onAddTransaction }: ExpenseFormProps) {
               placeholder="0.00"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="category">Categoría</label>
+          <div className="mb-5">
+            <label htmlFor="category" className="block mb-2 text-sm font-medium text-slate-400">Categoría</label>
             <select
+              className="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-slate-50 font-sans transition-all duration-300 text-[0.95rem] focus:outline-none focus:border-indigo-500 focus:ring-3 focus:ring-indigo-500/20"
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
@@ -85,9 +88,10 @@ export function ExpenseForm({ onAddTransaction }: ExpenseFormProps) {
               <option value="Otros">Otros</option>
             </select>
           </div>
-          <div className="form-group">
-            <label htmlFor="date">Fecha</label>
+          <div className="mb-5">
+            <label htmlFor="date" className="block mb-2 text-sm font-medium text-slate-400">Fecha</label>
             <input
+              className="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-slate-50 font-sans transition-all duration-300 text-[0.95rem] focus:outline-none focus:border-indigo-500 focus:ring-3 focus:ring-indigo-500/20"
               type="date"
               id="date"
               value={date}
@@ -95,9 +99,10 @@ export function ExpenseForm({ onAddTransaction }: ExpenseFormProps) {
               required
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="type">Tipo</label>
+          <div className="mb-5">
+            <label htmlFor="type" className="block mb-2 text-sm font-medium text-slate-400">Tipo</label>
             <select
+              className="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-slate-50 font-sans transition-all duration-300 text-[0.95rem] focus:outline-none focus:border-indigo-500 focus:ring-3 focus:ring-indigo-500/20"
               id="type"
               value={type}
               onChange={(e) => setType(e.target.value as "ingreso" | "gasto")}
@@ -107,7 +112,7 @@ export function ExpenseForm({ onAddTransaction }: ExpenseFormProps) {
               <option value="ingreso">Ingreso</option>
             </select>
           </div>
-          <button type="submit" className="btn btn-primary w-100 mt-2 flex-center">
+          <button type="submit" className="w-full mt-4 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold font-sans cursor-pointer transition-all duration-300 border-none text-[0.95rem] bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.6)] hover:-translate-y-0.5 active:scale-98">
             <PlusCircle size={18} className="mr-2" />
             Agregar Transacción
           </button>

@@ -85,15 +85,15 @@ export function CategoryChart({ transactions }: CategoryChartProps) {
   };
 
   return (
-    <div className="card chart-card">
-      <div className="card-header">
-        <h2>Distribución de Gastos</h2>
+    <div className="bg-slate-800 rounded-2xl border border-white/5 shadow-md overflow-hidden h-full">
+      <div className="p-6 border-b border-slate-700">
+        <h2 className="text-xl m-0 font-heading">Distribución de Gastos</h2>
       </div>
-      <div className="card-body chart-container">
+      <div className="p-6">
         {expenses.length === 0 ? (
-          <div className="empty-state">No hay gastos para mostrar.</div>
+          <div className="text-center p-12 text-slate-400 italic">No hay gastos para mostrar.</div>
         ) : (
-          <div style={{ height: "300px", width: "100%" }}>
+          <div className="h-[300px] w-full">
             <Doughnut data={data} options={options} />
           </div>
         )}

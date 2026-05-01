@@ -24,22 +24,22 @@ function App() {
 
   if (!isDbReady) {
     return (
-      <div className="loading-screen fade-in">
-        <div className="spinner"></div>
+      <div className="h-screen flex flex-col items-center justify-center text-slate-400 animate-[fadeIn_0.4s_ease-out_forwards]">
+        <div className="w-12 h-12 border-4 border-slate-800 border-t-indigo-500 rounded-full animate-spin mb-4"></div>
         <p>Cargando datos...</p>
       </div>
     );
   }
 
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <div className="header-content">
-          <div className="d-flex align-items-center">
-            <Wallet className="header-icon" size={40} />
+    <div className="max-w-[1400px] mx-auto p-8">
+      <header className="mb-8 p-8 bg-gradient-to-br from-slate-800/80 to-slate-900/90 rounded-2xl border border-white/5 shadow-2xl backdrop-blur-md">
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6">
+            <Wallet className="text-indigo-500 drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]" size={40} />
             <div>
-              <h1>Tracker de Gastos Bancario</h1>
-              <p>Controla tus finanzas personales de forma fácil y segura</p>
+              <h1 className="text-3xl font-heading mb-1 bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Tracker de Gastos Bancario</h1>
+              <p className="text-slate-400 m-0">Controla tus finanzas personales de forma fácil y segura</p>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@ function App() {
 
       <Navigation />
 
-      <main className="app-main p-4">
+      <main className="p-4">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/budget" element={<BudgetPage />} />

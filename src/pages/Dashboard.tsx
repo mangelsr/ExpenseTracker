@@ -62,24 +62,24 @@ export function Dashboard() {
   };
 
   return (
-    <div className="dashboard-grid">
-      <div className="sidebar-col">
+    <div className="grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-8 items-start">
+      <div className="sticky top-4">
         <ExpenseForm onAddTransaction={handleAddTransaction} />
       </div>
       
-      <div className="main-col">
+      <div className="flex flex-col gap-8">
         <SummaryCards transactions={transactions} />
         
-        <div className="charts-import-grid">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           <CategoryChart transactions={transactions} />
-          <div className="import-export-section">
+          <div className="flex flex-col h-full">
             <ImportDropzone onImportConfirm={handleImportConfirm} />
-            <div className="action-buttons mt-4">
-              <button className="btn btn-outline-primary w-100 mb-2 flex-center" onClick={handleExport}>
-                <Download size={18} className="mr-2" /> Exportar a CSV
+            <div className="flex gap-4 mt-4">
+              <button className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold font-sans cursor-pointer transition-all duration-300 border border-indigo-500 bg-transparent text-indigo-500 hover:bg-indigo-500 hover:text-white" onClick={handleExport}>
+                <Download size={18} /> Exportar a CSV
               </button>
-              <button className="btn btn-outline-danger w-100 flex-center" onClick={handleClearAll}>
-                <Trash2 size={18} className="mr-2" /> Limpiar datos
+              <button className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold font-sans cursor-pointer transition-all duration-300 border border-red-500 bg-transparent text-red-500 hover:bg-red-500 hover:text-white" onClick={handleClearAll}>
+                <Trash2 size={18} /> Limpiar datos
               </button>
             </div>
           </div>

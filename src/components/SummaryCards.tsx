@@ -24,34 +24,34 @@ export function SummaryCards({ transactions }: SummaryCardsProps) {
   };
 
   return (
-    <div className="summary-grid">
-      <div className="summary-card income">
-        <div className="summary-icon-wrapper">
-          <TrendingUp className="icon" />
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="bg-slate-800 rounded-2xl p-6 flex items-center gap-5 shadow-sm border border-white/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+        <div className="w-14 h-14 rounded-full flex items-center justify-center bg-emerald-500/10 text-emerald-500">
+          <TrendingUp />
         </div>
-        <div className="summary-content">
-          <p className="summary-label">Ingresos</p>
-          <h3 className="summary-value">{formatCurrency(income)}</h3>
+        <div>
+          <p className="text-slate-400 text-sm font-medium mb-1">Ingresos</p>
+          <h3 className="text-2xl font-bold m-0">{formatCurrency(income)}</h3>
         </div>
       </div>
       
-      <div className="summary-card expense">
-        <div className="summary-icon-wrapper">
-          <TrendingDown className="icon" />
+      <div className="bg-slate-800 rounded-2xl p-6 flex items-center gap-5 shadow-sm border border-white/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+        <div className="w-14 h-14 rounded-full flex items-center justify-center bg-red-500/10 text-red-500">
+          <TrendingDown />
         </div>
-        <div className="summary-content">
-          <p className="summary-label">Gastos</p>
-          <h3 className="summary-value">{formatCurrency(expense)}</h3>
+        <div>
+          <p className="text-slate-400 text-sm font-medium mb-1">Gastos</p>
+          <h3 className="text-2xl font-bold m-0">{formatCurrency(expense)}</h3>
         </div>
       </div>
 
-      <div className="summary-card balance">
-        <div className="summary-icon-wrapper">
-          <DollarSign className="icon" />
+      <div className="bg-slate-800 rounded-2xl p-6 flex items-center gap-5 shadow-sm border border-white/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+        <div className="w-14 h-14 rounded-full flex items-center justify-center bg-indigo-500/10 text-indigo-500">
+          <DollarSign />
         </div>
-        <div className="summary-content">
-          <p className="summary-label">Balance Total</p>
-          <h3 className="summary-value">{formatCurrency(balance)}</h3>
+        <div>
+          <p className="text-slate-400 text-sm font-medium mb-1">Balance Total</p>
+          <h3 className="text-2xl font-bold m-0">{formatCurrency(balance)}</h3>
         </div>
       </div>
     </div>
