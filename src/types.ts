@@ -13,3 +13,9 @@ export interface Budget {
   plannedIncome: number;
   plannedExpense: number;
 }
+
+export interface CategoryRule {
+  id?: number;
+  name: string;
+  keywords: string[];
+}

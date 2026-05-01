@@ -5,6 +5,7 @@ import { initDatabase } from './utils/database';
 import { Navigation } from './components/Navigation';
 import { Dashboard } from './pages/Dashboard';
 import { BudgetPage } from './pages/BudgetPage';
+import { CategoriesPage } from './pages/CategoriesPage';
 import './index.css';
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/budget" element={<BudgetPage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
         </Routes>
       </main>
     </div>

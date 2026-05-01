@@ -2,6 +2,7 @@ import { useState, useRef, DragEvent, ChangeEvent } from "react";
 import { UploadCloud, CheckCircle, XCircle } from "lucide-react";
 import { processCSV } from "../utils/csvImport";
 import { Transaction } from "../types";
+import { getAllCategoryRules } from "../utils/database";
 
 interface ImportDropzoneProps {
   onImportConfirm: (transactions: Transaction[]) => Promise<void>;
@@ -15,10 +16,11 @@ export function ImportDropzone({ onImportConfirm }: ImportDropzoneProps) {
   const handleFile = (file: File | undefined) => {
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
+        const rules = await getAllCategoryRules();
         const content = e.target?.result as string;
-        const transactions = processCSV(content);
+        const transactions = processCSV(content, rules);
         setPreview(transactions);
       } catch (error) {
         console.error("Error al procesar CSV:", error);

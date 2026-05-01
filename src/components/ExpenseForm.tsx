@@ -1,6 +1,7 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { PlusCircle } from "lucide-react";
-import { Transaction } from "../types";
+import { Transaction, CategoryRule } from "../types";
+import { getAllCategoryRules } from "../utils/database";
 
 interface ExpenseFormProps {
   onAddTransaction: (transaction: Transaction) => Promise<void>;
@@ -12,6 +13,19 @@ export function ExpenseForm({ onAddTransaction }: ExpenseFormProps) {
   const [category, setCategory] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [type, setType] = useState<"ingreso" | "gasto">("gasto");
+  const [categories, setCategories] = useState<CategoryRule[]>([]);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const rules = await getAllCategoryRules();
+        setCategories(rules);
+      } catch (error) {
+        console.error("Error al cargar categorías:", error);
+      }
+    };
+    loadCategories();
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -78,13 +92,11 @@ export function ExpenseForm({ onAddTransaction }: ExpenseFormProps) {
               <option value="" disabled>
                 Selecciona una categoría
               </option>
-              <option value="Transporte">Transporte</option>
-              <option value="Comida">Comida</option>
-              <option value="Entretenimiento">Entretenimiento</option>
-              <option value="Compras">Compras</option>
-              <option value="Educación">Educación</option>
-              <option value="Servicios Digitales">Servicios Digitales</option>
-              <option value="Comisiones Bancarias">Comisiones Bancarias</option>
+              {categories.map((cat) => (
+                <option key={cat.id || cat.name} value={cat.name}>
+                  {cat.name}
+                </option>
+              ))}
               <option value="Otros">Otros</option>
             </select>
           </div>
