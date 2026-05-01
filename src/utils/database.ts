@@ -1,9 +1,10 @@
-import { Transaction } from "../types";
+import { Transaction, Budget } from "../types";
 
 let db: IDBDatabase;
 const DB_NAME = "ExpenseTrackerDB";
-const DB_VERSION = 1;
+const DB_VERSION = 2; // Incremented version to add budgets store
 const STORE_NAME = "transactions";
+const BUDGET_STORE_NAME = "budgets";
 
 export function initDatabase(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -33,9 +34,41 @@ export function initDatabase(): Promise<IDBDatabase> {
         store.createIndex("category", "category", { unique: false });
         store.createIndex("type", "type", { unique: false });
       }
+
+      if (!db.objectStoreNames.contains(BUDGET_STORE_NAME)) {
+        const budgetStore = db.createObjectStore(BUDGET_STORE_NAME, {
+          keyPath: "id",
+          autoIncrement: true,
+        });
+        budgetStore.createIndex("month", "month", { unique: true });
+      }
     };
   });
 }
+
+// --- BUDGET FUNCTIONS ---
+export function saveBudget(budget: Budget): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([BUDGET_STORE_NAME], "readwrite");
+    const store = tx.objectStore(BUDGET_STORE_NAME);
+    const request = store.put(budget);
+    request.onsuccess = () => resolve(request.result as number);
+    request.onerror = () => reject("Error al guardar el presupuesto");
+  });
+}
+
+export function getBudgetByMonth(month: string): Promise<Budget | undefined> {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([BUDGET_STORE_NAME], "readonly");
+    const store = tx.objectStore(BUDGET_STORE_NAME);
+    const index = store.index("month");
+    const request = index.get(month);
+    
+    request.onsuccess = () => resolve(request.result as Budget | undefined);
+    request.onerror = () => reject("Error al obtener el presupuesto");
+  });
+}
+
 
 export function addTransaction(transaction: Transaction): Promise<number> {
   return new Promise((resolve, reject) => {
