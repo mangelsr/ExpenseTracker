@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Trash2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Transaction } from "../types";
 
 interface TransactionTableProps {
@@ -10,12 +10,24 @@ interface TransactionTableProps {
 export function TransactionTable({ transactions, onDelete }: TransactionTableProps) {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [categoryFilter, typeFilter, transactions]);
 
   const filteredTransactions = transactions.filter((t) => {
     const matchCategory = categoryFilter ? t.category === categoryFilter : true;
     const matchType = typeFilter ? t.type === typeFilter : true;
     return matchCategory && matchType;
   });
+
+  const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage) || 1;
+  const paginatedTransactions = filteredTransactions.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("es-US", {
@@ -85,14 +97,14 @@ export function TransactionTable({ transactions, onDelete }: TransactionTablePro
             </tr>
           </thead>
           <tbody>
-            {filteredTransactions.length === 0 ? (
+            {paginatedTransactions.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center empty-state">
                   No hay transacciones que mostrar.
                 </td>
               </tr>
             ) : (
-              filteredTransactions.map((t) => (
+              paginatedTransactions.map((t) => (
                 <tr key={t.id}>
                   <td>{formatDate(t.date)}</td>
                   <td>{t.description}</td>
@@ -122,6 +134,33 @@ export function TransactionTable({ transactions, onDelete }: TransactionTablePro
           </tbody>
         </table>
       </div>
+      
+      {totalPages > 1 && (
+        <div className="pagination flex-between mt-4">
+          <span className="text-muted">
+            Mostrando {(currentPage - 1) * itemsPerPage + 1} a {Math.min(currentPage * itemsPerPage, filteredTransactions.length)} de {filteredTransactions.length} transacciones
+          </span>
+          <div className="pagination-controls">
+            <button 
+              className="btn btn-outline btn-icon" 
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <span className="pagination-page flex-center">
+              {currentPage} / {totalPages}
+            </span>
+            <button 
+              className="btn btn-outline btn-icon" 
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
