@@ -1,5 +1,6 @@
-// Exportar a CSV
-function exportToCSV(transactions) {
+import { Transaction } from "../types";
+
+export function exportToCSV(transactions: Transaction[]): void {
   let csvContent = "date,description,amount,category,type\n";
 
   transactions.forEach((transaction) => {

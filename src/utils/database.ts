@@ -1,10 +1,11 @@
-let db;
+import { Transaction } from "../types";
+
+let db: IDBDatabase;
 const DB_NAME = "ExpenseTrackerDB";
 const DB_VERSION = 1;
 const STORE_NAME = "transactions";
 
-// Inicializar la base de datos
-function initDatabase() {
+export function initDatabase(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 
@@ -13,23 +14,20 @@ function initDatabase() {
       reject("Error al abrir la base de datos");
     };
 
-    request.onsuccess = (event) => {
-      db = event.target.result;
-      console.log("Base de datos abierta con éxito");
+    request.onsuccess = (event: Event) => {
+      db = (event.target as IDBOpenDBRequest).result;
       resolve(db);
     };
 
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
+    request.onupgradeneeded = (event: IDBVersionChangeEvent) => {
+      const db = (event.target as IDBOpenDBRequest).result;
 
-      // Crear object store si no existe
       if (!db.objectStoreNames.contains(STORE_NAME)) {
         const store = db.createObjectStore(STORE_NAME, {
           keyPath: "id",
           autoIncrement: true,
         });
 
-        // Crear índices para búsquedas
         store.createIndex("date", "date", { unique: false });
         store.createIndex("amount", "amount", { unique: false });
         store.createIndex("category", "category", { unique: false });
@@ -39,133 +37,82 @@ function initDatabase() {
   });
 }
 
-// Agregar una transacción
-function addTransaction(transaction) {
+export function addTransaction(transaction: Transaction): Promise<number> {
   return new Promise((resolve, reject) => {
     const tx = db.transaction([STORE_NAME], "readwrite");
     const store = tx.objectStore(STORE_NAME);
-
     const request = store.add(transaction);
-
-    request.onsuccess = () => {
-      resolve(request.result);
-    };
-
-    request.onerror = () => {
-      reject("Error al agregar la transacción");
-    };
+    request.onsuccess = () => resolve(request.result as number);
+    request.onerror = () => reject("Error al agregar la transacción");
   });
 }
 
-// Actualizar una transacción
-function updateTransaction(transaction) {
+export function updateTransaction(transaction: Transaction): Promise<number> {
   return new Promise((resolve, reject) => {
     const tx = db.transaction([STORE_NAME], "readwrite");
     const store = tx.objectStore(STORE_NAME);
-
     const request = store.put(transaction);
-
-    request.onsuccess = () => {
-      resolve(request.result);
-    };
-
-    request.onerror = () => {
-      reject("Error al actualizar la transacción");
-    };
+    request.onsuccess = () => resolve(request.result as number);
+    request.onerror = () => reject("Error al actualizar la transacción");
   });
 }
 
-// Obtener todas las transacciones
-function getAllTransactions() {
+export function getAllTransactions(): Promise<Transaction[]> {
   return new Promise((resolve, reject) => {
     const tx = db.transaction([STORE_NAME], "readonly");
     const store = tx.objectStore(STORE_NAME);
-
     const request = store.getAll();
-
-    request.onsuccess = () => {
-      resolve(request.result);
-    };
-
-    request.onerror = () => {
-      reject("Error al obtener las transacciones");
-    };
+    request.onsuccess = () => resolve(request.result as Transaction[]);
+    request.onerror = () => reject("Error al obtener las transacciones");
   });
 }
 
-// Obtener una transacción por ID
-function getTransaction(id) {
+export function getTransaction(id: number): Promise<Transaction> {
   return new Promise((resolve, reject) => {
     const tx = db.transaction([STORE_NAME], "readonly");
     const store = tx.objectStore(STORE_NAME);
-
     const request = store.get(id);
-
-    request.onsuccess = () => {
-      resolve(request.result);
-    };
-
-    request.onerror = () => {
-      reject("Error al obtener la transacción");
-    };
+    request.onsuccess = () => resolve(request.result as Transaction);
+    request.onerror = () => reject("Error al obtener la transacción");
   });
 }
 
-// Eliminar una transacción
-function deleteTransaction(id) {
+export function deleteTransaction(id: number): Promise<void> {
   return new Promise((resolve, reject) => {
     const tx = db.transaction([STORE_NAME], "readwrite");
     const store = tx.objectStore(STORE_NAME);
-
     const request = store.delete(id);
-
-    request.onsuccess = () => {
-      resolve();
-    };
-
-    request.onerror = () => {
-      reject("Error al eliminar la transacción");
-    };
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject("Error al eliminar la transacción");
   });
 }
 
-// Limpiar todas las transacciones
-function clearAllTransactions() {
+export function clearAllTransactions(): Promise<void> {
   return new Promise((resolve, reject) => {
     const tx = db.transaction([STORE_NAME], "readwrite");
     const store = tx.objectStore(STORE_NAME);
-
     const request = store.clear();
-
-    request.onsuccess = () => {
-      resolve();
-    };
-
-    request.onerror = () => {
-      reject("Error al limpiar las transacciones");
-    };
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject("Error al limpiar las transacciones");
   });
 }
 
-// Obtener transacciones con id mayor a lastId
-function getTransactionsAfterId(lastId) {
+export function getTransactionsAfterId(lastId: number): Promise<Transaction[]> {
   return new Promise((resolve, reject) => {
     const tx = db.transaction([STORE_NAME], "readonly");
     const store = tx.objectStore(STORE_NAME);
-    const result = [];
+    const result: Transaction[] = [];
     const request = store.openCursor(IDBKeyRange.lowerBound(lastId, true));
 
-    request.onsuccess = (event) => {
-      const cursor = event.target.result;
+    request.onsuccess = (event: Event) => {
+      const cursor = (event.target as IDBRequest).result as IDBCursorWithValue;
       if (cursor) {
-        result.push(cursor.value);
+        result.push(cursor.value as Transaction);
         cursor.continue();
       } else {
         resolve(result);
       }
     };
-    request.onerror = () => {
-      reject("Error al obtener transacciones nuevas");
-    };
+    request.onerror = () => reject("Error al obtener transacciones nuevas");
   });
 }
