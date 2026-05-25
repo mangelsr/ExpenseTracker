@@ -1,4 +1,4 @@
-import { useState, FormEvent, useEffect } from "react";
+import { useState, SubmitEvent, useEffect } from "react";
 import { PlusCircle } from "lucide-react";
 import { Transaction, CategoryRule } from "../types";
 import { getAllCategoryRules } from "../utils/database";
@@ -27,7 +27,7 @@ export function ExpenseForm({ onAddTransaction }: ExpenseFormProps) {
     loadCategories();
   }, []);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     if (!description || !amount || !category || !date || !type) return;
 
