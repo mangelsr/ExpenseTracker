@@ -9,7 +9,7 @@ import { ImportDropzone } from '../components/ImportDropzone';
 import { CategoryChart } from '../components/CategoryChart';
 import { Transaction } from '../types';
 
-export function Dashboard() {
+export function DashboardPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
@@ -66,10 +66,10 @@ export function Dashboard() {
       <div className="sticky top-4">
         <ExpenseForm onAddTransaction={handleAddTransaction} />
       </div>
-      
+
       <div className="flex flex-col gap-8">
         <SummaryCards transactions={transactions} />
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           <CategoryChart transactions={transactions} />
           <div className="flex flex-col h-full">
@@ -85,9 +85,9 @@ export function Dashboard() {
           </div>
         </div>
 
-        <TransactionTable 
-          transactions={transactions} 
-          onDelete={handleDeleteTransaction} 
+        <TransactionTable
+          transactions={transactions}
+          onDelete={handleDeleteTransaction}
         />
       </div>
     </div>

@@ -3,10 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Wallet } from 'lucide-react';
 import { initDatabase } from './utils/database';
 import { Navigation } from './components/Navigation';
-import { Dashboard } from './pages/Dashboard';
-import { BudgetPage } from './pages/BudgetPage';
-import { CategoriesPage } from './pages/CategoriesPage';
-import { AppliancesPage } from './pages/AppliancesPage';
+import { DashboardPage, BudgetPage, CategoriesPage, AppliancesPage } from './pages';
 import './index.css';
 
 function App() {
@@ -51,7 +48,7 @@ function App() {
 
       <main className="p-4">
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<DashboardPage />} />
           <Route path="/budget" element={<BudgetPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/electrodomesticos" element={<AppliancesPage />} />
