@@ -1,11 +1,12 @@
-import { Transaction, Budget, CategoryRule } from "../types";
+import { Transaction, Budget, CategoryRule, ApplianceLog } from "../types";
 
 let db: IDBDatabase;
 const DB_NAME = "ExpenseTrackerDB";
-const DB_VERSION = 3; // Incremented version to add category_rules store
+const DB_VERSION = 4; // Incremented version to add appliance_logs store
 const STORE_NAME = "transactions";
 const BUDGET_STORE_NAME = "budgets";
 const CATEGORY_RULES_STORE_NAME = "category_rules";
+const APPLIANCE_LOGS_STORE_NAME = "appliance_logs";
 
 const defaultCategoryRules: Omit<CategoryRule, "id">[] = [
   { name: "Transporte", keywords: ["uber", "didi", "rides", "taxi", "transporte", "gasolina", "estacionamiento"] },
@@ -66,6 +67,16 @@ export function initDatabase(): Promise<IDBDatabase> {
         defaultCategoryRules.forEach(rule => {
           rulesStore.add(rule);
         });
+      }
+
+      if (!db.objectStoreNames.contains(APPLIANCE_LOGS_STORE_NAME)) {
+        const applianceStore = db.createObjectStore(APPLIANCE_LOGS_STORE_NAME, {
+          keyPath: "id",
+          autoIncrement: true,
+        });
+        applianceStore.createIndex("applianceName", "applianceName", { unique: false });
+        applianceStore.createIndex("date", "date", { unique: false });
+        applianceStore.createIndex("type", "type", { unique: false });
       }
     };
   });
@@ -213,5 +224,46 @@ export function getTransactionsAfterId(lastId: number): Promise<Transaction[]> {
       }
     };
     request.onerror = () => reject("Error al obtener transacciones nuevas");
+  });
+}
+
+// --- APPLIANCE LOGS FUNCTIONS ---
+export function addApplianceLog(log: ApplianceLog): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([APPLIANCE_LOGS_STORE_NAME], "readwrite");
+    const store = tx.objectStore(APPLIANCE_LOGS_STORE_NAME);
+    const request = store.add(log);
+    request.onsuccess = () => resolve(request.result as number);
+    request.onerror = () => reject("Error al agregar el registro del electrodoméstico");
+  });
+}
+
+export function updateApplianceLog(log: ApplianceLog): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([APPLIANCE_LOGS_STORE_NAME], "readwrite");
+    const store = tx.objectStore(APPLIANCE_LOGS_STORE_NAME);
+    const request = store.put(log);
+    request.onsuccess = () => resolve(request.result as number);
+    request.onerror = () => reject("Error al actualizar el registro del electrodoméstico");
+  });
+}
+
+export function getAllApplianceLogs(): Promise<ApplianceLog[]> {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([APPLIANCE_LOGS_STORE_NAME], "readonly");
+    const store = tx.objectStore(APPLIANCE_LOGS_STORE_NAME);
+    const request = store.getAll();
+    request.onsuccess = () => resolve(request.result as ApplianceLog[]);
+    request.onerror = () => reject("Error al obtener los registros de electrodomésticos");
+  });
+}
+
+export function deleteApplianceLog(id: number): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([APPLIANCE_LOGS_STORE_NAME], "readwrite");
+    const store = tx.objectStore(APPLIANCE_LOGS_STORE_NAME);
+    const request = store.delete(id);
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject("Error al eliminar el registro del electrodoméstico");
   });
 }

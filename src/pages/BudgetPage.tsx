@@ -86,7 +86,7 @@ export function BudgetPage() {
                 <ChevronLeft size={24} />
               </button>
               
-              <div className="flex items-center justify-center min-w-[200px] cursor-pointer p-2 px-4 rounded-xl transition-all duration-300 hover:bg-white/5 relative" onClick={() => document.getElementById('hidden-month-input')?.showPicker?.()}>
+              <div className="flex items-center justify-center min-w-[200px] cursor-pointer p-2 px-4 rounded-xl transition-all duration-300 hover:bg-white/5 relative" onClick={() => (document.getElementById('hidden-month-input') as HTMLInputElement | null)?.showPicker?.()}>
                 <CalendarDays size={20} className="mr-2 text-indigo-500" />
                 <span className="text-xl font-heading m-0">{displayMonth}</span>
                 <input

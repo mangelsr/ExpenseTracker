@@ -6,6 +6,7 @@ import { Navigation } from './components/Navigation';
 import { Dashboard } from './pages/Dashboard';
 import { BudgetPage } from './pages/BudgetPage';
 import { CategoriesPage } from './pages/CategoriesPage';
+import { ElectrodomesticosPage } from './pages/ElectrodomesticosPage';
 import './index.css';
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/budget" element={<BudgetPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/electrodomesticos" element={<ElectrodomesticosPage />} />
         </Routes>
       </main>
     </div>

@@ -19,3 +19,18 @@ export interface CategoryRule {
   name: string;
   keywords: string[];
 }
+
+export interface ApplianceLog {
+  id?: number;
+  applianceName: string;
+  date: string;
+  dateType: 'exact' | 'estimated';
+  type: 'buy' | 'installation' | 'maintenance';
+  performer: string;
+  cost: number;
+  fileBase64?: string;
+  fileName?: string;
+  fileType?: string;
+  notes?: string;
+  parentId?: number;
+}
