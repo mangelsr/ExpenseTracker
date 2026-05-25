@@ -1,33 +1,33 @@
 import { useState, useEffect, FormEvent } from "react";
-import { 
-  Tv, 
-  Calendar, 
-  DollarSign, 
-  User, 
-  Trash2, 
-  Wrench, 
-  FileText, 
-  PlusCircle, 
-  Search, 
-  X, 
-  Edit, 
-  Check, 
+import {
+  Tv,
+  Calendar,
+  DollarSign,
+  User,
+  Trash2,
+  Wrench,
+  FileText,
+  PlusCircle,
+  Search,
+  X,
+  Edit,
+  Check,
   Hammer,
   ShoppingBag,
   FileCheck,
   Link as LinkIcon
 } from "lucide-react";
 import { ApplianceLog } from "../types";
-import { 
-  getAllApplianceLogs, 
-  addApplianceLog, 
-  updateApplianceLog, 
-  deleteApplianceLog 
+import {
+  getAllApplianceLogs,
+  addApplianceLog,
+  updateApplianceLog,
+  deleteApplianceLog
 } from "../utils/database";
 
-export function ElectrodomesticosPage() {
+export function AppliancesPage() {
   const [logs, setLogs] = useState<ApplianceLog[]>([]);
-  
+
   // Form State
   const [editingId, setEditingId] = useState<number | undefined>(undefined);
   const [applianceName, setApplianceName] = useState("");
@@ -38,7 +38,7 @@ export function ElectrodomesticosPage() {
   const [cost, setCost] = useState("");
   const [notes, setNotes] = useState("");
   const [parentId, setParentId] = useState<number | undefined>(undefined);
-  
+
   // File Upload State
   const [fileBase64, setFileBase64] = useState<string | undefined>(undefined);
   const [fileName, setFileName] = useState<string | undefined>(undefined);
@@ -130,7 +130,7 @@ export function ElectrodomesticosPage() {
         await addApplianceLog(logData);
         alert("Registro agregado con éxito");
       }
-      
+
       resetForm();
       await loadLogs();
     } catch (error) {
@@ -158,7 +158,7 @@ export function ElectrodomesticosPage() {
     if (window.confirm("¿Estás seguro de que deseas eliminar este registro?")) {
       try {
         await deleteApplianceLog(id);
-        
+
         // Also cleanup related children parentId references
         const relatedLogs = logs.filter(l => l.parentId === id);
         for (const childLog of relatedLogs) {
@@ -197,9 +197,9 @@ export function ElectrodomesticosPage() {
 
   // Calculations for Summary
   const filteredLogs = logs.filter(log => {
-    const matchesSearch = log.applianceName.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          log.performer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          (log.notes && log.notes.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesSearch = log.applianceName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      log.performer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (log.notes && log.notes.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesType = typeFilter === "all" || log.type === typeFilter;
     return matchesSearch && matchesType;
   });
@@ -270,8 +270,8 @@ export function ElectrodomesticosPage() {
               </h3>
             </div>
             {editingId !== undefined && (
-              <button 
-                onClick={resetForm} 
+              <button
+                onClick={resetForm}
                 className="text-slate-400 hover:text-white bg-slate-700 p-1.5 rounded-full transition-colors"
                 title="Cancelar Edición"
               >
@@ -279,7 +279,7 @@ export function ElectrodomesticosPage() {
               </button>
             )}
           </div>
-          
+
           <div className="p-6">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               {/* Type selection */}
@@ -289,33 +289,30 @@ export function ElectrodomesticosPage() {
                   <button
                     type="button"
                     onClick={() => handleTypeChange('buy')}
-                    className={`py-2 px-3 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-300 border ${
-                      type === 'buy' 
-                        ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' 
-                        : 'bg-slate-900 text-slate-400 border-slate-700 hover:border-slate-500'
-                    }`}
+                    className={`py-2 px-3 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-300 border ${type === 'buy'
+                      ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30'
+                      : 'bg-slate-900 text-slate-400 border-slate-700 hover:border-slate-500'
+                      }`}
                   >
                     Compra
                   </button>
                   <button
                     type="button"
                     onClick={() => handleTypeChange('installation')}
-                    className={`py-2 px-3 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-300 border ${
-                      type === 'installation' 
-                        ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
-                        : 'bg-slate-900 text-slate-400 border-slate-700 hover:border-slate-500'
-                    }`}
+                    className={`py-2 px-3 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-300 border ${type === 'installation'
+                      ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                      : 'bg-slate-900 text-slate-400 border-slate-700 hover:border-slate-500'
+                      }`}
                   >
                     Instalación
                   </button>
                   <button
                     type="button"
                     onClick={() => handleTypeChange('maintenance')}
-                    className={`py-2 px-3 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-300 border ${
-                      type === 'maintenance' 
-                        ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' 
-                        : 'bg-slate-900 text-slate-400 border-slate-700 hover:border-slate-500'
-                    }`}
+                    className={`py-2 px-3 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-300 border ${type === 'maintenance'
+                      ? 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+                      : 'bg-slate-900 text-slate-400 border-slate-700 hover:border-slate-500'
+                      }`}
                   >
                     Mantenimiento
                   </button>
@@ -479,9 +476,9 @@ export function ElectrodomesticosPage() {
 
                   {fileBase64 && fileType?.startsWith("image/") && (
                     <div className="mt-1 rounded-xl overflow-hidden border border-slate-700 max-h-[120px] flex items-center justify-center bg-slate-900">
-                      <img 
-                        src={fileBase64} 
-                        alt="Vista previa" 
+                      <img
+                        src={fileBase64}
+                        alt="Vista previa"
                         className="max-h-[120px] object-contain w-full"
                       />
                     </div>
@@ -502,8 +499,8 @@ export function ElectrodomesticosPage() {
               </div>
 
               {/* Submit Button */}
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="w-full mt-4 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold font-sans cursor-pointer transition-all duration-300 border-none text-[0.95rem] bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.6)] hover:-translate-y-0.5 active:scale-98"
               >
                 {editingId !== undefined ? <Check size={18} /> : <PlusCircle size={18} />}
@@ -532,41 +529,37 @@ export function ElectrodomesticosPage() {
             <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
               <button
                 onClick={() => setTypeFilter("all")}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 ${
-                  typeFilter === "all"
-                    ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/30"
-                    : "bg-slate-900 text-slate-400 border border-slate-700 hover:border-slate-500"
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 ${typeFilter === "all"
+                  ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/30"
+                  : "bg-slate-900 text-slate-400 border border-slate-700 hover:border-slate-500"
+                  }`}
               >
                 Todos
               </button>
               <button
                 onClick={() => setTypeFilter("buy")}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 ${
-                  typeFilter === "buy"
-                    ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/30"
-                    : "bg-slate-900 text-slate-400 border border-slate-700 hover:border-slate-500"
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 ${typeFilter === "buy"
+                  ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/30"
+                  : "bg-slate-900 text-slate-400 border border-slate-700 hover:border-slate-500"
+                  }`}
               >
                 Compras
               </button>
               <button
                 onClick={() => setTypeFilter("installation")}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 ${
-                  typeFilter === "installation"
-                    ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/30"
-                    : "bg-slate-900 text-slate-400 border border-slate-700 hover:border-slate-500"
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 ${typeFilter === "installation"
+                  ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/30"
+                  : "bg-slate-900 text-slate-400 border border-slate-700 hover:border-slate-500"
+                  }`}
               >
                 Instalaciones
               </button>
               <button
                 onClick={() => setTypeFilter("maintenance")}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 ${
-                  typeFilter === "maintenance"
-                    ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/30"
-                    : "bg-slate-900 text-slate-400 border border-slate-700 hover:border-slate-500"
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-300 ${typeFilter === "maintenance"
+                  ? "bg-indigo-500 text-white shadow-md shadow-indigo-500/30"
+                  : "bg-slate-900 text-slate-400 border border-slate-700 hover:border-slate-500"
+                  }`}
               >
                 Mantenimiento
               </button>
@@ -590,49 +583,45 @@ export function ElectrodomesticosPage() {
                 const totalOwnershipCost = log.cost + totalServicesCost;
 
                 return (
-                  <div 
-                    key={log.id} 
-                    className={`bg-slate-800 rounded-2xl border border-white/5 shadow-md hover:shadow-lg transition-all duration-300 flex flex-col justify-between overflow-hidden relative ${
-                      editingId === log.id ? "ring-2 ring-indigo-500/50 border-indigo-500/30" : ""
-                    }`}
+                  <div
+                    key={log.id}
+                    className={`bg-slate-800 rounded-2xl border border-white/5 shadow-md hover:shadow-lg transition-all duration-300 flex flex-col justify-between overflow-hidden relative ${editingId === log.id ? "ring-2 ring-indigo-500/50 border-indigo-500/30" : ""
+                      }`}
                   >
                     {/* Color border indicator depending on type */}
-                    <div className={`h-1.5 w-full ${
-                      log.type === "buy" 
-                        ? "bg-indigo-500" 
-                        : log.type === "installation" 
-                        ? "bg-emerald-500" 
+                    <div className={`h-1.5 w-full ${log.type === "buy"
+                      ? "bg-indigo-500"
+                      : log.type === "installation"
+                        ? "bg-emerald-500"
                         : "bg-amber-500"
-                    }`} />
-                    
+                      }`} />
+
                     <div className="p-6 flex-1 flex flex-col">
                       {/* Header */}
                       <div className="flex justify-between items-start gap-4 mb-2.5">
                         <div>
-                          <span className={`inline-block px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider mb-2 ${
-                            log.type === "buy"
-                              ? "bg-indigo-500/10 text-indigo-400"
-                              : log.type === "installation"
+                          <span className={`inline-block px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider mb-2 ${log.type === "buy"
+                            ? "bg-indigo-500/10 text-indigo-400"
+                            : log.type === "installation"
                               ? "bg-emerald-500/10 text-emerald-400"
                               : "bg-amber-500/10 text-amber-400"
-                          }`}>
-                            {log.type === "buy" 
-                              ? "Compra" 
-                              : log.type === "installation" 
-                              ? "Instalación" 
-                              : "Mantenimiento"}
+                            }`}>
+                            {log.type === "buy"
+                              ? "Compra"
+                              : log.type === "installation"
+                                ? "Instalación"
+                                : "Mantenimiento"}
                           </span>
                           <h4 className="text-lg font-bold font-heading text-white m-0 line-clamp-1">{log.applianceName}</h4>
                         </div>
-                        
+
                         {/* Price */}
-                        <span className={`text-xl font-bold font-sans ${
-                          log.type === "buy"
-                            ? "text-indigo-400"
-                            : log.type === "installation"
+                        <span className={`text-xl font-bold font-sans ${log.type === "buy"
+                          ? "text-indigo-400"
+                          : log.type === "installation"
                             ? "text-emerald-400"
                             : "text-amber-400"
-                        }`}>
+                          }`}>
                           ${log.cost.toFixed(2)}
                         </span>
                       </div>
@@ -654,11 +643,10 @@ export function ElectrodomesticosPage() {
                           <Calendar size={15} className="text-slate-500 shrink-0" />
                           <span className="flex items-center gap-1.5">
                             {log.date}
-                            <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold ${
-                              log.dateType === 'exact' 
-                                ? 'bg-slate-700 text-slate-300' 
-                                : 'bg-purple-950/60 text-purple-400 border border-purple-900/50'
-                            }`}>
+                            <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold ${log.dateType === 'exact'
+                              ? 'bg-slate-700 text-slate-300'
+                              : 'bg-purple-950/60 text-purple-400 border border-purple-900/50'
+                              }`}>
                               {log.dateType === 'exact' ? 'Exacta' : 'Estimada'}
                             </span>
                           </span>
