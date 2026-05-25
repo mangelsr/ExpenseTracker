@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Trash2, ChevronLeft, ChevronRight } from "lucide-react";
-import { Transaction } from "../types";
+import { Transaction } from "../../types";
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -72,7 +72,7 @@ export function TransactionTable({ transactions, onDelete }: TransactionTablePro
             <option value="">Todos los tipos</option>
             <option value="ingreso">Ingresos</option>
             <option value="gasto">Gastos</option>
-            </select>
+          </select>
           {(categoryFilter || typeFilter) && (
             <button
               className="px-4 py-2 border border-slate-600 text-slate-50 rounded-xl font-medium cursor-pointer transition-all duration-300 hover:bg-slate-700 text-sm"
@@ -136,15 +136,15 @@ export function TransactionTable({ transactions, onDelete }: TransactionTablePro
           </tbody>
         </table>
       </div>
-      
+
       {totalPages > 1 && (
         <div className="px-6 py-4 border-t border-slate-700 bg-slate-900/30 rounded-b-2xl flex justify-between items-center">
           <span className="text-slate-400 text-sm">
             Mostrando {(currentPage - 1) * itemsPerPage + 1} a {Math.min(currentPage * itemsPerPage, filteredTransactions.length)} de {filteredTransactions.length} transacciones
           </span>
           <div className="flex items-center gap-2">
-            <button 
-              className="bg-transparent border border-slate-600 text-slate-50 cursor-pointer p-2 rounded-full inline-flex transition-all duration-300 hover:bg-slate-700 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:scale-100" 
+            <button
+              className="bg-transparent border border-slate-600 text-slate-50 cursor-pointer p-2 rounded-full inline-flex transition-all duration-300 hover:bg-slate-700 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:scale-100"
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
@@ -153,8 +153,8 @@ export function TransactionTable({ transactions, onDelete }: TransactionTablePro
             <span className="min-w-[60px] font-medium flex justify-center items-center">
               {currentPage} / {totalPages}
             </span>
-            <button 
-              className="bg-transparent border border-slate-600 text-slate-50 cursor-pointer p-2 rounded-full inline-flex transition-all duration-300 hover:bg-slate-700 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:scale-100" 
+            <button
+              className="bg-transparent border border-slate-600 text-slate-50 cursor-pointer p-2 rounded-full inline-flex transition-all duration-300 hover:bg-slate-700 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:scale-100"
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
             >

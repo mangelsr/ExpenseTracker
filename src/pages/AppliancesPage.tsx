@@ -1,8 +1,10 @@
-import { AppliancesProvider } from "../components/appliances/AppliancesContext";
-import { ApplianceSummary } from "../components/appliances/ApplianceSummary";
-import { ApplianceForm } from "../components/appliances/ApplianceForm";
-import { ApplianceFilters } from "../components/appliances/ApplianceFilters";
-import { ApplianceList } from "../components/appliances/ApplianceList";
+import {
+  AppliancesProvider,
+  ApplianceFilters,
+  ApplianceForm,
+  ApplianceList,
+  ApplianceSummary
+} from "../components/appliances";
 
 export function AppliancesPage() {
   return (

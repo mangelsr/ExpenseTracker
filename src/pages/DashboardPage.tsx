@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Download, Trash2 } from 'lucide-react';
-import { getAllTransactions, addTransaction, deleteTransaction, clearAllTransactions } from '../utils/database';
+
 import { exportToCSV } from '../utils/export';
-import { ExpenseForm } from '../components/ExpenseForm';
-import { SummaryCards } from '../components/SummaryCards';
-import { TransactionTable } from '../components/TransactionTable';
-import { ImportDropzone } from '../components/ImportDropzone';
-import { CategoryChart } from '../components/CategoryChart';
 import { Transaction } from '../types';
+import {
+  getAllTransactions, addTransaction,
+  deleteTransaction, clearAllTransactions
+} from '../utils/database';
+import {
+  ExpenseForm, SummaryCards, TransactionTable,
+  ImportDropzone, CategoryChart
+} from '../components/dashboard';
 
 export function DashboardPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
