@@ -11,30 +11,30 @@
   },
   "dependencies": {
     "chart.js": "^4.5.1",
-    "lucide-react": "^1.16.0",
-    "papaparse": "^5.5.3",
-    "react": "^19.2.6",
+    "lucide-react": "^1.21.0",
+    "papaparse": "^5.5.4",
+    "react": "^19.2.7",
     "react-chartjs-2": "^5.3.1",
-    "react-dom": "^19.2.6",
-    "react-router-dom": "^7.15.1"
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.18.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tailwindcss/vite": "^4.3.0",
-    "@types/node": "^25.9.1",
+    "@tailwindcss/vite": "^4.3.1",
+    "@types/node": "^25.9.4",
     "@types/papaparse": "^5.5.2",
-    "@types/react": "^19.2.15",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "autoprefixer": "^10.5.0",
-    "eslint": "^10.4.0",
+    "eslint": "^10.5.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.2",
+    "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.6.0",
     "postcss": "^8.5.15",
-    "tailwindcss": "^4.3.0",
+    "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
-    "vite": "^8.0.14"
+    "vite": "^8.0.16"
   },
   "packageManager": "pnpm@11.3.0+sha512.2c403d6594527287672b1f7056343a1f7c3634036a67ffabfcc2b3d7595d843768f8787148d1b57cf7956c90606bbd192857c363af19e96d2d0ec9ec5741d215"
 }
