@@ -116,6 +116,7 @@ src/
 ## Database Schema (IndexedDB)
 
 The local database (`ExpenseTrackerDB`) is organized into four main object stores:
+
 1. `transactions`: Stores individual income/expense items with date, description, amount, category, and type.
 2. `budgets`: Stores monthly planned income and expenses (indexed by month in `YYYY-MM` format).
 3. `category_rules`: Stores automatic categorization mapping rules, mapping category names to lists of keywords. Pre-populated with default utility rules.

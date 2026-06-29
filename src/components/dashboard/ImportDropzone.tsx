@@ -1,8 +1,8 @@
 import { useState, useRef, DragEvent, ChangeEvent } from "react";
 import { UploadCloud, CheckCircle, XCircle } from "lucide-react";
-import { processCSV } from "../utils/csvImport";
-import { Transaction } from "../types";
-import { getAllCategoryRules } from "../utils/database";
+import { processCSV } from "../../utils/csvImport";
+import { Transaction } from "../../types";
+import { getAllCategoryRules } from "../../utils/database";
 
 interface ImportDropzoneProps {
   onImportConfirm: (transactions: Transaction[]) => Promise<void>;

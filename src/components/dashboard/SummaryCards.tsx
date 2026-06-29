@@ -1,5 +1,5 @@
 import { TrendingUp, TrendingDown, DollarSign } from "lucide-react";
-import { Transaction } from "../types";
+import { Transaction } from "../../types";
 
 interface SummaryCardsProps {
   transactions: Transaction[];

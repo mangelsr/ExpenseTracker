@@ -1,7 +1,7 @@
 import { useState, SubmitEvent, useEffect } from "react";
 import { PlusCircle } from "lucide-react";
-import { Transaction, CategoryRule } from "../types";
-import { getAllCategoryRules } from "../utils/database";
+import { Transaction, CategoryRule } from "../../types";
+import { getAllCategoryRules } from "../../utils/database";
 
 interface ExpenseFormProps {
   onAddTransaction: (transaction: Transaction) => Promise<void>;

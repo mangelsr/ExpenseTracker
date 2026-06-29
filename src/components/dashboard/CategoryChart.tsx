@@ -5,7 +5,7 @@ import {
   Legend,
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { Transaction } from "../types";
+import { Transaction } from "../../types";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
