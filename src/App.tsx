@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Wallet } from 'lucide-react';
 import { initDatabase } from './utils/database';
 import { Navigation } from './components/Navigation';
-import { DashboardPage, BudgetPage, CategoriesPage, AppliancesPage } from './pages';
+import { DashboardPage, BudgetPage, CategoriesPage, AppliancesPage, BackupPage } from './pages';
 import './index.css';
 
 function App() {
@@ -52,6 +52,7 @@ function App() {
           <Route path="/budget" element={<BudgetPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/electrodomesticos" element={<AppliancesPage />} />
+          <Route path="/backup" element={<BackupPage />} />
         </Routes>
       </main>
     </div>

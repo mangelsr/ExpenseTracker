@@ -24,3 +24,25 @@ export function getBudgetByMonth(month: string): Promise<Budget | undefined> {
     request.onerror = () => reject("Error al obtener el presupuesto");
   });
 }
+
+export function getAllBudgets(): Promise<Budget[]> {
+  return new Promise((resolve, reject) => {
+    const db = getDB();
+    const tx = db.transaction([BUDGET_STORE_NAME], "readonly");
+    const store = tx.objectStore(BUDGET_STORE_NAME);
+    const request = store.getAll();
+    request.onsuccess = () => resolve(request.result as Budget[]);
+    request.onerror = () => reject("Error al obtener todos los presupuestos");
+  });
+}
+
+export function clearAllBudgets(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const db = getDB();
+    const tx = db.transaction([BUDGET_STORE_NAME], "readwrite");
+    const store = tx.objectStore(BUDGET_STORE_NAME);
+    const request = store.clear();
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject("Error al limpiar los presupuestos");
+  });
+}

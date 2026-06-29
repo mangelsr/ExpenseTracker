@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, WalletCards, Tags, Tv } from 'lucide-react';
+import { LayoutDashboard, WalletCards, Tags, Tv, Database } from 'lucide-react';
 
 export function Navigation() {
   const location = useLocation();
@@ -22,6 +22,10 @@ export function Navigation() {
         <Link to="/electrodomesticos" className={`flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${location.pathname === '/electrodomesticos' ? 'bg-indigo-500/10 text-indigo-500' : 'text-slate-400 hover:bg-slate-700 hover:text-slate-50'}`}>
           <Tv size={20} />
           <span>Electrodomésticos</span>
+        </Link>
+        <Link to="/backup" className={`flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${location.pathname === '/backup' ? 'bg-indigo-500/10 text-indigo-500' : 'text-slate-400 hover:bg-slate-700 hover:text-slate-50'}`}>
+          <Database size={20} />
+          <span>Respaldo</span>
         </Link>
       </div>
     </nav>

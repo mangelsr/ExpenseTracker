@@ -44,3 +44,14 @@ export function deleteApplianceLog(id: number): Promise<void> {
     request.onerror = () => reject("Error al eliminar el registro del electrodoméstico");
   });
 }
+
+export function clearAllApplianceLogs(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const db = getDB();
+    const tx = db.transaction([APPLIANCE_LOGS_STORE_NAME], "readwrite");
+    const store = tx.objectStore(APPLIANCE_LOGS_STORE_NAME);
+    const request = store.clear();
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject("Error al limpiar los registros de electrodomésticos");
+  });
+}

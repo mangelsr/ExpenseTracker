@@ -44,3 +44,14 @@ export function deleteCategoryRule(id: number): Promise<void> {
     request.onerror = () => reject("Error al eliminar la regla de categoría");
   });
 }
+
+export function clearAllCategoryRules(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const db = getDB();
+    const tx = db.transaction([CATEGORY_RULES_STORE_NAME], "readwrite");
+    const store = tx.objectStore(CATEGORY_RULES_STORE_NAME);
+    const request = store.clear();
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject("Error al limpiar las reglas de categorías");
+  });
+}
