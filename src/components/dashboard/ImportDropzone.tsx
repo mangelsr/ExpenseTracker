@@ -1,6 +1,7 @@
 import { useState, useRef, DragEvent, ChangeEvent } from "react";
 import { UploadCloud, CheckCircle, XCircle } from "lucide-react";
 import { processCSV } from "../../utils/csvImport";
+import { processExcel } from "../../utils/excelImport";
 import { Transaction } from "../../types";
 import { getAllCategoryRules } from "../../utils/database";
 
@@ -15,19 +16,30 @@ export function ImportDropzone({ onImportConfirm }: ImportDropzoneProps) {
 
   const handleFile = (file: File | undefined) => {
     if (!file) return;
+    const isExcel = file.name.endsWith(".xlsx");
     const reader = new FileReader();
     reader.onload = async (e) => {
       try {
         const rules = await getAllCategoryRules();
-        const content = e.target?.result as string;
-        const transactions = processCSV(content, rules);
-        setPreview(transactions);
+        if (isExcel) {
+          const content = e.target?.result as ArrayBuffer;
+          const transactions = processExcel(content, rules);
+          setPreview(transactions);
+        } else {
+          const content = e.target?.result as string;
+          const transactions = processCSV(content, rules);
+          setPreview(transactions);
+        }
       } catch (error) {
-        console.error("Error al procesar CSV:", error);
-        alert("Error al procesar el archivo CSV");
+        console.error("Error al procesar archivo:", error);
+        alert(`Error al procesar el archivo ${isExcel ? "Excel" : "CSV"}`);
       }
     };
-    reader.readAsText(file);
+    if (isExcel) {
+      reader.readAsArrayBuffer(file);
+    } else {
+      reader.readAsText(file);
+    }
   };
 
   const onDragOver = (e: DragEvent<HTMLDivElement>) => {
@@ -65,7 +77,7 @@ export function ImportDropzone({ onImportConfirm }: ImportDropzoneProps) {
   return (
     <div className="bg-slate-800 rounded-2xl border border-white/5 shadow-md overflow-hidden h-full flex flex-col">
       <div className="p-6 border-b border-slate-700 flex items-center gap-3">
-        <h2 className="text-xl m-0 font-heading">Importar desde CSV Bancario</h2>
+        <h2 className="text-xl m-0 font-heading">Importar desde CSV o Excel Bancario</h2>
       </div>
       <div className="p-6 flex-1 flex flex-col">
         {preview.length === 0 ? (
@@ -77,12 +89,12 @@ export function ImportDropzone({ onImportConfirm }: ImportDropzoneProps) {
             onClick={() => fileInputRef.current?.click()}
           >
             <UploadCloud size={48} className={`mb-4 transition-all duration-300 ${isDragging ? "text-indigo-500 -translate-y-1" : "text-slate-400 group-hover:text-indigo-500"}`} />
-            <p className="font-medium mb-2">Haz clic aquí o arrastra un archivo CSV</p>
-            <span className="text-sm text-slate-400">Formatos soportados: .csv</span>
+            <p className="font-medium mb-2">Haz clic aquí o arrastra un archivo CSV o Excel</p>
+            <span className="text-sm text-slate-400">Formatos soportados: .csv, .xlsx</span>
             <input
               type="file"
               ref={fileInputRef}
-              accept=".csv"
+              accept=".csv, .xlsx"
               style={{ display: "none" }}
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleFile(e.target.files?.[0])}
             />
