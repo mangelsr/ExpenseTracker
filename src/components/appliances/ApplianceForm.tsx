@@ -93,8 +93,9 @@ export const ApplianceForm: React.FC = () => {
           {/* Link to Buy log (Only for installation or maintenance) */}
           {(type === 'installation' || type === 'maintenance') && (
             <div>
-              <label className="block mb-1.5 text-sm font-medium text-slate-400">Vincular a Equipo Comprado</label>
+              <label htmlFor="parentSelect" className="block mb-1.5 text-sm font-medium text-slate-400">Vincular a Equipo Comprado</label>
               <select
+                id="parentSelect"
                 value={parentId || ""}
                 onChange={(e) => {
                   const val = e.target.value ? parseInt(e.target.value) : undefined;
@@ -121,8 +122,9 @@ export const ApplianceForm: React.FC = () => {
 
           {/* Appliance Name */}
           <div>
-            <label className="block mb-1.5 text-sm font-medium text-slate-400">Electrodoméstico *</label>
+            <label htmlFor="applianceName" className="block mb-1.5 text-sm font-medium text-slate-400">Electrodoméstico *</label>
             <input
+              id="applianceName"
               type="text"
               value={applianceName}
               onChange={(e) => setApplianceName(e.target.value)}
@@ -135,8 +137,9 @@ export const ApplianceForm: React.FC = () => {
           {/* Date & DateType */}
           <div className="grid grid-cols-1 gap-3">
             <div>
-              <label className="block mb-1.5 text-sm font-medium text-slate-400">Fecha *</label>
+              <label htmlFor="applianceDate" className="block mb-1.5 text-sm font-medium text-slate-400">Fecha *</label>
               <input
+                id="applianceDate"
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
@@ -173,10 +176,11 @@ export const ApplianceForm: React.FC = () => {
 
           {/* Who Performed */}
           <div>
-            <label className="block mb-1.5 text-sm font-medium text-slate-400">Realizado por *</label>
+            <label htmlFor="appliancePerformer" className="block mb-1.5 text-sm font-medium text-slate-400">Realizado por *</label>
             <div className="relative">
               <User className="absolute left-3.5 top-3.5 text-slate-500" size={16} />
               <input
+                id="appliancePerformer"
                 type="text"
                 value={performer}
                 onChange={(e) => setPerformer(e.target.value)}
@@ -189,10 +193,11 @@ export const ApplianceForm: React.FC = () => {
 
           {/* Cost */}
           <div>
-            <label className="block mb-1.5 text-sm font-medium text-slate-400">Costo ($) *</label>
+            <label htmlFor="applianceCost" className="block mb-1.5 text-sm font-medium text-slate-400">Costo ($) *</label>
             <div className="relative">
               <span className="absolute left-3.5 top-3 text-slate-500 font-bold">$</span>
               <input
+                id="applianceCost"
                 type="number"
                 step="0.01"
                 min="0"
