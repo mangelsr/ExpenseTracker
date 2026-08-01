@@ -14,7 +14,8 @@ This application is a frontend-only React application designed for personal fina
 - **Styling**: **Tailwind CSS v4** with a custom theme configuration (using `@import "tailwindcss";` in `src/index.css`)
 - **Visuals & Charts**: [Chart.js](https://www.chartjs.org/) + [react-chartjs-2](https://react-chartjs-2.js.org/)
 - **Icons**: [Lucide React](https://lucide.dev/)
-- **CSV Parsing**: [PapaParse](https://www.papaparse.com/)
+- **Parsing**: [PapaParse](https://www.papaparse.com/) (CSV) + [xlsx](https://sheetjs.com/) (Excel)
+- **Testing**: [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/) + [jsdom](https://github.com/jsdom/jsdom)
 
 ---
 
@@ -29,15 +30,23 @@ src/
 │   ├── categories/      # Category rules forms, list, row, and context state
 │   ├── dashboard/       # Charts, forms, import zone, table, and summary cards
 │   └── Navigation.tsx   # Global navigation bar
-├── pages/               # Page-level containers (Dashboard, Budget, Categories, Appliances)
+├── pages/               # Page-level containers (Dashboard, Budget, Categories, Appliances, Backup)
 │   ├── DashboardPage.tsx
 │   ├── BudgetPage.tsx
 │   ├── CategoriesPage.tsx
 │   ├── AppliancesPage.tsx
+│   ├── BackupPage.tsx   # Database backup and restore management page
 │   └── index.ts         # Pages barrel export
 ├── utils/               # Utility helper modules
-│   ├── database/        # Modular IndexedDB API logic (transactions, budgets, rules, appliances)
+│   ├── database/        # Modular IndexedDB API logic
+│   │   ├── connection.ts
+│   │   ├── transactions.ts
+│   │   ├── budgets.ts
+│   │   ├── categoryRules.ts
+│   │   ├── applianceLogs.ts
+│   │   └── backup.ts    # JSON backup & restore utilities
 │   ├── csvImport.ts     # CSV transaction parser & rule mapper
+│   ├── excelImport.ts   # Excel (.xlsx) transaction parser
 │   ├── export.ts        # CSV transactions exporter
 │   └── database.ts      # Database barrel export
 ├── types.ts             # TypeScript type declarations
@@ -74,7 +83,8 @@ The local database store (`ExpenseTrackerDB`) runs on version `4` and contains f
 3. `category_rules`: Custom rules for automatic categorization mapping.
 4. `appliance_logs`: Purchase, installation, and maintenance events for appliances.
 
-### Key Rules:
+### Key Rules
+
 - **Initialization**: Always initialize the database before interacting with stores using `initDatabase()` or through context providers.
 - **Transactions**: Use the modular db helpers in [src/utils/database/](file:///home/miguel/code/ExpenseTracker/src/utils/database/) instead of raw indexedDB calls.
 - **Database Upgrades**: If you need to add store configurations, indexes, or modify schemas, do so in [connection.ts](file:///home/miguel/code/ExpenseTracker/src/utils/database/connection.ts) and increment the `DB_VERSION` constant. Never downgrade the version.
@@ -103,11 +113,29 @@ We aim to create a **premium, responsive, and cohesive user experience**.
 Before finishing any task or claiming success, ensure the following checks pass:
 
 1. **Linting**: Run lint rules via ESLint to ensure clean code style:
+
    ```bash
    pnpm run lint
    ```
-2. **Production Build**: Verify that compilation, TypeScript checks, and bundler packaging succeed without any warnings or errors:
+
+2. **Unit Testing**: Run the unit test suite to ensure no regressions are introduced:
+
+   ```bash
+   pnpm run test
+   ```
+
+   If you have added or updated code logic, always make sure to write corresponding unit tests beside the source code.
+   You can also check test coverage using:
+
+   ```bash
+   pnpm run test:coverage
+   ```
+
+   Note that specific folders (like the IndexedDB connection setups or type files) are excluded from coverage calculations as configured in [vite.config.ts](file:///home/miguel/code/ExpenseTracker/vite.config.ts).
+3. **Production Build**: Verify that compilation, TypeScript checks, and bundler packaging succeed without any warnings or errors:
+
    ```bash
    pnpm run build
    ```
-3. **TypeScript Types**: Maintain strict typing and export interfaces from [types.ts](file:///home/miguel/code/ExpenseTracker/src/types.ts). Avoid the `any` keyword.
+
+4. **TypeScript Types**: Maintain strict typing and export interfaces from [types.ts](file:///home/miguel/code/ExpenseTracker/src/types.ts). Avoid the `any` keyword.
