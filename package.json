@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "prepare": "husky"
   },
   "dependencies": {
     "chart.js": "^4.5.1",
@@ -39,12 +40,17 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.8.0",
+    "husky": "^9.1.7",
     "jsdom": "^30.0.1",
+    "lint-staged": "^17.3.0",
     "postcss": "^8.5.25",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
     "vite": "^8.2.0",
     "vitest": "^4.1.10"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "packageManager": "pnpm@11.3.0+sha512.2c403d6594527287672b1f7056343a1f7c3634036a67ffabfcc2b3d7595d843768f8787148d1b57cf7956c90606bbd192857c363af19e96d2d0ec9ec5741d215"
 }
