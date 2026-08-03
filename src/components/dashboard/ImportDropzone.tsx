@@ -91,6 +91,7 @@ export function ImportDropzone({ onImportConfirm }: ImportDropzoneProps) {
             <UploadCloud size={48} className={`mb-4 transition-all duration-300 ${isDragging ? "text-indigo-500 -translate-y-1" : "text-slate-400 group-hover:text-indigo-500"}`} />
             <p className="font-medium mb-2">Haz clic aquí o arrastra un archivo CSV o Excel</p>
             <span className="text-sm text-slate-400">Formatos soportados: .csv, .xlsx</span>
+            <span className="text-xs text-indigo-400 mt-2 font-medium">CSV: Banco Bolivariano | Excel: Banco Pichincha</span>
             <input
               type="file"
               ref={fileInputRef}

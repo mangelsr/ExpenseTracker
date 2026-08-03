@@ -36,6 +36,7 @@ describe("ImportDropzone component", () => {
     expect(screen.getByText("Importar desde CSV o Excel Bancario")).toBeDefined();
     expect(screen.getByText("Haz clic aquí o arrastra un archivo CSV o Excel")).toBeDefined();
     expect(screen.getByText("Formatos soportados: .csv, .xlsx")).toBeDefined();
+    expect(screen.getByText("CSV: Banco Bolivariano | Excel: Banco Pichincha")).toBeDefined();
   });
 
   it("should parse file content and display preview layout correctly on upload", async () => {
