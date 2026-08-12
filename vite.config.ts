@@ -6,6 +6,32 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  build: {
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            {
+              name: 'xlsx',
+              test: /node_modules[\\/]xlsx/,
+            },
+            {
+              name: 'chartjs',
+              test: /node_modules[\\/](chart\.js|react-chartjs-2)/,
+            },
+            {
+              name: 'react-vendor',
+              test: /node_modules[\\/](react|react-dom|react-router|react-router-dom)/,
+            },
+            {
+              name: 'vendor',
+              test: /node_modules/,
+            },
+          ],
+        },
+      },
+    },
+  },
   test: {
     coverage: {
       provider: 'v8',
